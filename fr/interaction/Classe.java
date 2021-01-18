@@ -8,12 +8,12 @@ public class Classe {
 
 	public String nom;
 	public List<Attaque> attaques;
-	
+
 	public Classe(String nom, Attaque[] attaques) {
 		this.nom = nom;
 		this.attaques = Arrays.asList(attaques);
 	}
-	
+
 	/**
 	 * @return the nom
 	 */
@@ -45,5 +45,5 @@ public class Classe {
 	public Attaque getAttaque() {
 		return this.attaques.get(new Random().nextInt(attaques.size()));
 	}
-	
+
 }

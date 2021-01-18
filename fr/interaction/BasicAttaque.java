@@ -22,17 +22,16 @@ public class BasicAttaque implements Attaque {
 
 	/**
 	 * Permet à un combattant de lancer une attaque
-	 * @return les dégats du lanceur si l'attaque a réussi, retourne 0 sinon 
+	 * 
+	 * @return les dégats du lanceur si l'attaque a réussi, retourne 0 sinon
 	 */
 	@Override
 	public int LancerAttaque(Combattant lanceur, Combattant cible) {
 		Random r = new Random();
 		double random = 100 * r.nextDouble();
-		if(random < this.chanceToucher) {
-			System.out.println("Retourne " + lanceur.getDegats());
+		if (random < this.chanceToucher)
 			return lanceur.getDegats();
-		}
-		System.out.println("Echec de l'attaque. (retourne 0)");
+		System.out.println("Echec de l'attaque.");
 		return 0;
 	}
 
@@ -63,7 +62,7 @@ public class BasicAttaque implements Attaque {
 
 	@Override
 	public void setChanceToucher(double chanceToucher) {
-		if(chanceToucher >= 0 && chanceToucher <= 100)
+		if (chanceToucher >= 0 && chanceToucher <= 100)
 			this.chanceToucher = chanceToucher;
 		else
 			System.out.println("Chance de toucher doit être compris entre 0 et 100.");

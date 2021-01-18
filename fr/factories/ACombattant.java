@@ -1,11 +1,11 @@
 package fr.factories;
 
-public abstract class ACombattant implements Combattant{
-	
+public abstract class ACombattant implements Combattant {
+
 	private String nom;
 	private int pointDeVie;
 	private int degats;
-	
+
 	public ACombattant(String nom, int pointDeVie, int degats) {
 		this.pointDeVie = pointDeVie;
 		this.degats = degats;
@@ -15,16 +15,16 @@ public abstract class ACombattant implements Combattant{
 	public ACombattant(String nom) {
 		this(nom, 0, 0);
 	}
-	
+
 	public void attaquer(Combattant adversaire) {
 		adversaire.defendre(this.degats);
 		System.out.println(this.nom + " a effectué une attaque de " + this.degats + " à " + adversaire.getNom());
 	}
-	
+
 	public void defendre(int degats) {
 		this.pointDeVie -= degats;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "nom=" + nom + ", pointDeVie=" + pointDeVie + ", degats=" + degats + "";
@@ -71,5 +71,5 @@ public abstract class ACombattant implements Combattant{
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	
+
 }

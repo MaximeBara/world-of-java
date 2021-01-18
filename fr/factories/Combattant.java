@@ -3,7 +3,8 @@ package fr.factories;
 public interface Combattant {
 
 	public void attaquer(Combattant adversaire);
-    public void defendre(int degats);
+
+	public void defendre(int degats);
     
     public String getNom();
     public int getDegats();
