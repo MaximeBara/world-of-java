@@ -28,9 +28,11 @@ public class BasicAttaque implements Attaque {
 	public int LancerAttaque(Combattant lanceur, Combattant cible) {
 		Random r = new Random();
 		double random = 100 * r.nextDouble();
-		if(random < this.chanceToucher)
+		if(random < this.chanceToucher) {
+			System.out.println("Retourne " + lanceur.getDegats());
 			return lanceur.getDegats();
-		System.out.println("Echec de l'attaque.");
+		}
+		System.out.println("Echec de l'attaque. (retourne 0)");
 		return 0;
 	}
 
