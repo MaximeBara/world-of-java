@@ -1,10 +1,15 @@
 package fr.factories;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 import fr.entite.Monstre;
 import fr.entite.Personnage;
+import fr.interaction.Attaque;
+import fr.interaction.BasicAttaque;
+import fr.interaction.Classe;
 
 public abstract class Monde {
 
@@ -19,6 +24,7 @@ public abstract class Monde {
 	 * @return Une instance de la classe Personnage correctement instanciée.
 	 **/
 	public static Personnage personnageFactory() {
+		
 		Scanner clavier = new Scanner(System.in);
 		System.out.println("Saisir le nom du personnage :");
 		Personnage res = new Personnage(clavier.nextLine());
@@ -26,8 +32,32 @@ public abstract class Monde {
 		res.setPointDeVie(clavier.nextInt());
 		System.out.println("Saisir les dégâts du personnage :");
 		res.setDegats(clavier.nextInt());
+		res.setClasse(classeFactory());
 		clavier.close();
 		return res;
+	}
+	
+	/**
+	 * Créer une liste de différentes classes
+	 * @return Une classe parmi cette liste
+	 */
+	public static Classe classeFactory() {
+		
+		List<Classe> listClasses = new ArrayList<>();
+		
+		String[] sorts = {"colère", "feu stellaire", "éclat solaire", "éclat lunaire", "météores"};
+		double[] chanceToucherSorts = { 25 , 25, 10, 10, 100 };
+		Attaque[] listeAttaques = new Attaque[5];
+		
+		for(int i=0; i<sorts.length; i++) {
+			listeAttaques[i] = new BasicAttaque(sorts[i], chanceToucherSorts[i]);
+		}
+		
+		Classe druide = new Classe("Druide", listeAttaques);
+		listClasses.add(druide);
+		
+		return listClasses.get(new Random().nextInt(listClasses.size()));
+		
 	}
 
 	/**
