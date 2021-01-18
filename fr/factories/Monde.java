@@ -36,29 +36,28 @@ public abstract class Monde {
 		clavier.close();
 		return res;
 	}
-
+	
 	/**
 	 * Créer une liste de différentes classes
-	 * 
 	 * @return Une classe parmi cette liste
 	 */
 	public static Classe classeFactory() {
-
+		
 		List<Classe> listClasses = new ArrayList<>();
-
-		String[] sorts = { "colère", "feu stellaire", "éclat solaire", "éclat lunaire", "météores" };
-		double[] chanceToucherSorts = { 25, 25, 10, 10, 100 };
+		
+		String[] sorts = {"colère", "feu stellaire", "éclat solaire", "éclat lunaire", "météores"};
+		double[] chanceToucherSorts = { 25 , 25, 10, 10, 100 };
 		Attaque[] listeAttaques = new Attaque[5];
-
-		for (int i = 0; i < sorts.length; i++) {
+		
+		for(int i=0; i<sorts.length; i++) {
 			listeAttaques[i] = new BasicAttaque(sorts[i], chanceToucherSorts[i]);
 		}
-
+		
 		Classe druide = new Classe("Druide", listeAttaques);
 		listClasses.add(druide);
-
+		
 		return listClasses.get(new Random().nextInt(listClasses.size()));
-
+		
 	}
 
 	/**
