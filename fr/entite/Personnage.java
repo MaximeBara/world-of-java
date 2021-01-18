@@ -11,5 +11,10 @@ public class Personnage extends Combattant{
 	public Personnage(String nom) {
 		super(nom);
 	}
+
+	@Override
+	public String toString() {
+		return "Personnage [" + super.toString() + "]";
+	}
 	
 }

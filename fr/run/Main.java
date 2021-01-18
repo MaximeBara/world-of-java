@@ -5,7 +5,7 @@ import fr.factories.Monde;
 public class Main {
 	
 	public static void main(String[] args) {
-		System.out.println(Monde.personnageFactory().toString());
+		Monde.combat(Monde.personnageFactory(), Monde.monstreFactory());
 	}
 	
 }
