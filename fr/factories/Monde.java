@@ -8,7 +8,7 @@ import fr.entite.Personnage;
 
 public abstract class Monde {
 
-	public static String[] debutNom = new String[] { "chat", "chien", "chaton" };
+	public static String[] debutNom = new String[] { "Chat", "Chien", "Chaton" };
 
 	public static String[] finNom = new String[] { "méchant", "de feu", "de la mort" };
 
@@ -25,7 +25,7 @@ public abstract class Monde {
 		System.out.println("Saisir les points de vie du personnage :");
 		res.setPointDeVie(clavier.nextInt());
 		System.out.println("Saisir les dégâts du personnage :");
-		res.setDegat(clavier.nextInt());
+		res.setDegats(clavier.nextInt());
 		clavier.close();
 		return res;
 	}
@@ -42,24 +42,29 @@ public abstract class Monde {
 		return monMonstre;
 	}
 	
-	public static void combat(Personnage personnage, Monstre monstre) {
+	/**
+	 * Fait combattre les deux combattants passés en paramètres.
+	 * @param combattant1
+	 * @param combattant2
+	 */
+	public static void combat(Combattant combattant1, Combattant combattant2) {
 		boolean turn = true;
 		
-		System.out.println("Combat entre " + personnage.toString() + " et " + monstre.toString());
+		System.out.println("Combat entre " + combattant1.toString() + " et " + combattant2.toString());
 		
-		while(personnage.getPointDeVie() > 0 && monstre.getPointDeVie() > 0) {
+		while(combattant1.getPointDeVie() > 0 && combattant2.getPointDeVie() > 0) {
 		    if (turn) {
-		        personnage.setPointDeVie(personnage.getPointDeVie() - monstre.getDegat());
+		    	combattant1.attaquer(combattant2);
 		    }
 		    else {
-		    	monstre.setPointDeVie(monstre.getPointDeVie() - personnage.getDegat());
+		    	combattant2.attaquer(combattant1);
 		    }
 		    turn = !turn;
 		}
-		if(personnage.getPointDeVie() <= 0)
-			System.out.println(monstre.getNom() + " a vaincu " + personnage.getNom());
+		if(combattant1.getPointDeVie() <= 0)
+			System.out.println(combattant2.getNom() + " a vaincu " + combattant1.getNom());
 		else
-			System.out.println(personnage.getNom() + " a vaincu " + monstre.getNom());
+			System.out.println(combattant1.getNom() + " a vaincu " + combattant2.getNom());
 	}
 
 	/**

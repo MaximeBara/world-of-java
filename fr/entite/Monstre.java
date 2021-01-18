@@ -1,8 +1,8 @@
 package fr.entite;
 
-import fr.factories.Combattant;
+import fr.factories.ACombattant;
 
-public class Monstre extends Combattant{
+public class Monstre extends ACombattant{
 
 	public Monstre(String nom) {
 		super(nom);
