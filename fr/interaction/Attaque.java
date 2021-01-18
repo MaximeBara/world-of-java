@@ -4,7 +4,7 @@ import fr.factories.Combattant;
 
 public interface Attaque {
 
-	public int LancerAttaque(Combattant lanceur, Combattant cible);
+	public int lancerAttaque(Combattant lanceur, Combattant cible);
 
 	public String getNom();
 

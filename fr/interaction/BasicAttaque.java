@@ -26,18 +26,12 @@ public class BasicAttaque implements Attaque {
 	 * @return les dégats du lanceur si l'attaque a réussi, retourne 0 sinon
 	 */
 	@Override
-	public int LancerAttaque(Combattant lanceur, Combattant cible) {
+	public int lancerAttaque(Combattant lanceur, Combattant cible) {
 		Random r = new Random();
 		double random = 100 * r.nextDouble();
-<<<<<<< HEAD
 		if (random < this.chanceToucher)
-=======
-		if(random < this.chanceToucher) {
-			System.out.println("Retourne " + lanceur.getDegats());
->>>>>>> 2662c3517cd37a67069e0498b881168970aaf584
 			return lanceur.getDegats();
-		}
-		System.out.println("Echec de l'attaque. (retourne 0)");
+		System.out.println("Echec de l'attaque.");
 		return 0;
 	}
 

@@ -2,6 +2,7 @@ package fr.entite;
 
 import fr.factories.ACombattant;
 import fr.factories.Combattant;
+import fr.interaction.Attaque;
 import fr.interaction.Classe;
 
 
@@ -20,9 +21,11 @@ public class Personnage extends ACombattant {
 	
 	@Override
 	public void attaquer(Combattant adversaire) {
-		int currentAttaque = this.classe.getAttaque().LancerAttaque(this, adversaire);
-		adversaire.defendre(currentAttaque);
-		System.out.println(super.getNom() + " a effectué une attaque de " + currentAttaque + " à " + adversaire.getNom());
+		Attaque currentAttaque = this.classe.getAttaque();
+		int degatsCurrentAttaque = currentAttaque.lancerAttaque(this, adversaire);
+		
+		adversaire.defendre(degatsCurrentAttaque);
+		System.out.println(super.getNom() + " a effectué une attaque(" + currentAttaque.getNom() + ") de " + degatsCurrentAttaque + " à " + adversaire.getNom());
 	}
 	
 	/**
