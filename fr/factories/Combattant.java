@@ -18,7 +18,7 @@ public abstract class Combattant{
 	
 	@Override
 	public String toString() {
-		return "Combattant [nom=" + nom + ", pointDeVie=" + pointDeVie + ", degat=" + degat + "]";
+		return "nom=" + nom + ", pointDeVie=" + pointDeVie + ", degat=" + degat + "";
 	}
 
 	/**

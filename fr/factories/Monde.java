@@ -22,6 +22,10 @@ public abstract class Monde {
 		Scanner clavier = new Scanner(System.in);
 		System.out.println("Saisir le nom du personnage :");
 		Personnage res = new Personnage(clavier.nextLine());
+		System.out.println("Saisir les points de vie du personnage :");
+		res.setPointDeVie(clavier.nextInt());
+		System.out.println("Saisir les dégâts du personnage :");
+		res.setDegat(clavier.nextInt());
 		clavier.close();
 		return res;
 	}
@@ -34,7 +38,7 @@ public abstract class Monde {
 	 **/
 	public static Monstre monstreFactory() {
 		String nomMonstre = debutNom[new Random().nextInt(debutNom.length)] + " " + finNom[new Random().nextInt(finNom.length)];
-		Monstre monMonstre = new Monstre(nomMonstre);
+		Monstre monMonstre = new Monstre(nomMonstre, new Random().nextInt(20), new Random().nextInt(20));
 		return monMonstre;
 	}
 	
