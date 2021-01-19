@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
+import fr.entite.Groupe;
 import fr.entite.Monstre;
 import fr.entite.Personnage;
 import fr.interaction.Attaque;
@@ -93,6 +94,30 @@ public abstract class Monde {
 				+ finNom[new Random().nextInt(finNom.length)];
 		Monstre monMonstre = new Monstre(nomMonstre, new Random().nextInt(20), new Random().nextInt(20));
 		return monMonstre;
+	}
+	
+	/**
+	 * Créer un groupe de Monstres
+	 * @param nombreMonstre taille du groupe de Monstres
+	 * @return le groupe de Monstres
+	 */
+	public static Groupe creationGroupeMonstres(int nombreMonstres) {
+		Groupe grp = new Groupe(nombreMonstres);
+		for(int i=0; i<nombreMonstres; i++)
+			grp.addCombattant(monstreFactory());
+		return grp;
+	}
+	
+	/**
+	 * Créer un groupe de Personnages
+	 * @param nombreMonstre taille du groupe de Personnages
+	 * @return le groupe de Personnages
+	 */
+	public static Groupe creationGroupePersonnages(int nombrePersonnages) {
+		Groupe grp = new Groupe(nombrePersonnages);
+		for(int i=0; i<nombrePersonnages; i++)
+			grp.addCombattant(personnageFactory());
+		return grp;
 	}
 
 	/**
