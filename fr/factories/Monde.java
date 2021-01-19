@@ -1,7 +1,6 @@
 package fr.factories;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -13,9 +12,10 @@ import fr.interaction.Classe;
 
 public abstract class Monde {
 
-	public static String[] debutNom = new String[] { "Chat", "Chien", "Chaton" };
+	private static String[] debutNom = new String[] { "Chat", "Chien", "Chaton" };
+	private static String[] finNom = new String[] { "méchant", "de feu", "de la mort" };
 
-	public static String[] finNom = new String[] { "méchant", "de feu", "de la mort" };
+	private static HashMap<String, Classe> classes;
 
 	/**
 	 * Créer un personnage avec tous ses attributs. Demande à l'utilisateur d'entrer
@@ -32,32 +32,54 @@ public abstract class Monde {
 		res.setPointDeVie(clavier.nextInt());
 		System.out.println("Saisir les dégâts du personnage :");
 		res.setDegats(clavier.nextInt());
-		res.setClasse(classeFactory());
+		classeFactory();
+		Classe classe;
+		do {
+			System.out.println("Saisir la classe du personnage :");
+			String nextLine = clavier.next();
+			classe = getClasse(nextLine);
+		} while (classe == null);
+		res.setClasse(classe);
 		clavier.close();
 		return res;
+
 	}
-	
+
+	/**
+	 * Retourne une classe de la HashMap classes suivant le String nom passé en
+	 * paramètre Si la classe n'est pas trouvée, retourne null et affiche une
+	 * erreur.
+	 * 
+	 * @param nom
+	 * @return la classe ayant comme nom nom.
+	 */
+	public static Classe getClasse(String nom) {
+		if (classes.get(nom) != null)
+			return classes.get(nom);
+		System.out.println("La classe demandée n'existe pas.");
+		return null;
+	}
+
 	/**
 	 * Créer une liste de différentes classes
+	 * 
 	 * @return Une classe parmi cette liste
 	 */
-	public static Classe classeFactory() {
-		
-		List<Classe> listClasses = new ArrayList<>();
-		
-		String[] sorts = {"colère", "feu stellaire", "éclat solaire", "éclat lunaire", "météores"};
-		double[] chanceToucherSorts = { 25 , 25, 10, 10, 100 };
+	public static void classeFactory() {
+
+		classes = new HashMap<>();
+
+		String[] sorts = { "colère", "feu stellaire", "éclat solaire", "éclat lunaire", "météores" };
+		double[] chanceToucherSorts = { 25, 25, 10, 10, 100 };
 		Attaque[] listeAttaques = new Attaque[5];
-		
-		for(int i=0; i<sorts.length; i++) {
+
+		for (int i = 0; i < sorts.length; i++) {
 			listeAttaques[i] = new BasicAttaque(sorts[i], chanceToucherSorts[i]);
 		}
-		
+
 		Classe druide = new Classe("Druide", listeAttaques);
-		listClasses.add(druide);
-		
-		return listClasses.get(new Random().nextInt(listClasses.size()));
-		
+		classes.put("Druide", druide);
+
 	}
 
 	/**
