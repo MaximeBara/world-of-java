@@ -25,7 +25,8 @@ public class Personnage extends ACombattant {
 		int degatsCurrentAttaque = currentAttaque.lancerAttaque(this, adversaire);
 		
 		adversaire.defendre(degatsCurrentAttaque);
-		System.out.println(super.getNom() + " a effectué une attaque(" + currentAttaque.getNom() + ") de " + degatsCurrentAttaque + " à " + adversaire.getNom());
+		if(degatsCurrentAttaque != 0)
+			System.out.println(super.getNom() + " a effectué une attaque(" + currentAttaque.getNom() + ") de " + degatsCurrentAttaque + " à " + adversaire.getNom());
 	}
 	
 	/**

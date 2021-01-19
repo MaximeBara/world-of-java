@@ -1,6 +1,7 @@
 package fr.factories;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,6 +13,8 @@ import fr.interaction.BasicAttaque;
 import fr.interaction.Classe;
 
 public abstract class Monde {
+	
+	private static Scanner clavier = new Scanner(System.in);
 
 	private static String[] debutNom = new String[] { "Chat", "Chien", "Chaton" };
 	private static String[] finNom = new String[] { "méchant", "de feu", "de la mort" };
@@ -26,19 +29,17 @@ public abstract class Monde {
 	 **/
 	public static Personnage personnageFactory() {
 
-		Scanner clavier = new Scanner(System.in);
 		System.out.println("Saisir le nom du personnage :");
-		Personnage res = new Personnage(clavier.nextLine());
+		Personnage res = new Personnage(clavier.next());
 		System.out.println("Saisir les points de vie du personnage :");
 		res.setPointDeVie(clavier.nextInt());
 		System.out.println("Saisir les dégâts du personnage :");
 		res.setDegats(clavier.nextInt());
-		classeFactory();
 		Classe classe;
 		do {
 			System.out.println("Saisir la classe du personnage :");
-			String nextLine = clavier.next();
-			classe = getClasse(nextLine);
+			String next = clavier.next();
+			classe = getClasse(next);
 		} while (classe == null);
 		res.setClasse(classe);
 		clavier.close();
@@ -95,27 +96,29 @@ public abstract class Monde {
 		Monstre monMonstre = new Monstre(nomMonstre, new Random().nextInt(20), new Random().nextInt(20));
 		return monMonstre;
 	}
-	
+
 	/**
 	 * Créer un groupe de Monstres
+	 * 
 	 * @param nombreMonstre taille du groupe de Monstres
 	 * @return le groupe de Monstres
 	 */
 	public static Groupe creationGroupeMonstres(int nombreMonstres) {
 		Groupe grp = new Groupe(nombreMonstres);
-		for(int i=0; i<nombreMonstres; i++)
+		for (int i = 0; i < nombreMonstres; i++)
 			grp.addCombattant(monstreFactory());
 		return grp;
 	}
-	
+
 	/**
 	 * Créer un groupe de Personnages
+	 * 
 	 * @param nombreMonstre taille du groupe de Personnages
 	 * @return le groupe de Personnages
 	 */
 	public static Groupe creationGroupePersonnages(int nombrePersonnages) {
 		Groupe grp = new Groupe(nombrePersonnages);
-		for(int i=0; i<nombrePersonnages; i++)
+		for (int i = 0; i < nombrePersonnages; i++)
 			grp.addCombattant(personnageFactory());
 		return grp;
 	}
@@ -127,29 +130,87 @@ public abstract class Monde {
 	 * @param combattant2
 	 */
 	public static void combat(Combattant combattant1, Combattant combattant2) {
+		int tour = 1;
 		boolean turn = true;
 
 		System.out.println("Combat entre " + combattant1.toString() + " et " + combattant2.toString());
 
 		while (combattant1.getPointDeVie() > 0 && combattant2.getPointDeVie() > 0) {
+			System.out.println("------- TOUR " + tour + " -------");
 			if (turn) {
 				combattant1.attaquer(combattant2);
+				System.out.println("Il reste " + combattant2.getPointDeVie() + " points de vie à " + combattant2.getNom());
 			} else {
 				combattant2.attaquer(combattant1);
+				System.out.println("Il reste " + combattant1.getPointDeVie() + " points de vie à " + combattant1.getNom());
 			}
 			turn = !turn;
+			tour++;
 		}
 		if (combattant1.getPointDeVie() <= 0)
 			System.out.println(combattant2.getNom() + " a vaincu " + combattant1.getNom());
 		else
 			System.out.println(combattant1.getNom() + " a vaincu " + combattant2.getNom());
 	}
-
-	/**
-	 * Afficher les informations du monde
-	 */
+	
+	public static void genese() {
+		String choix;
+		classeFactory();
+		
+		System.out.println("---***--- Bonjour ---***---");
+		System.out.println("Choisir une option:");
+		System.out.println("1: Lancer un combat 1v1");
+		System.out.println("2: Lancer un combat de groupe");
+		System.out.println("3: One vs World Hardcore Edition");
+		System.out.println("4: Informations");
+		System.out.println("----------------------------");
+		System.out.println(">>>");
+		
+		choix = clavier.nextLine();
+		
+		if(choix.equals("1"))
+			combat1v1();
+		else if(choix.equals("2"))
+			combatGroupe();
+		else if(choix.equals("3"))
+			combatSolo();
+		else if(choix.equals("4"))
+			afficherInformations();
+		else 
+			System.exit(0);
+	}
+	
+	public static void combat1v1() {
+		combat(personnageFactory(), monstreFactory());
+	}
+	
+	public static void combatGroupe() {
+		System.out.println("Quel est la taille du groupe du héro ?");
+		Groupe personnages = creationGroupePersonnages(clavier.nextInt());
+		
+		System.out.println("Quel est la taille du groupe des monstres ?");
+		Groupe monstres = creationGroupeMonstres(clavier.nextInt());
+		
+		combat(personnages, monstres);
+	}
+	
+	public static void combatSolo() {
+		System.out.println("Quel est la taille du groupe des monstres ?");
+		Groupe monstres = creationGroupeMonstres(clavier.nextInt());
+		
+		combat(personnageFactory(), monstres);
+	}
+	
 	public static void afficherInformations() {
-		System.out.println(monstreFactory());
+		System.out.println("Les classes disponibles sont: ");
+		for(Map.Entry<String, Classe> classe : classes.entrySet()) {
+			System.out.println("La classe : " + classe.getKey());
+			System.out.println("Ses attaques : ");
+			for(Attaque attaque : classe.getValue().attaques) {
+				System.out.println(attaque.getNom());
+			}
+		}
+			
 	}
 
 }

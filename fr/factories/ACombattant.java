@@ -23,6 +23,8 @@ public abstract class ACombattant implements Combattant {
 
 	public void defendre(int degats) {
 		this.pointDeVie -= degats;
+		if(this.pointDeVie < 0)
+			this.pointDeVie = 0;
 	}
 
 	@Override
