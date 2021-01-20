@@ -23,7 +23,6 @@ public class Personnage extends ACombattant {
 	public void attaquer(Combattant adversaire) {
 		Attaque currentAttaque = this.classe.getAttaque();
 		int degatsCurrentAttaque = currentAttaque.lancerAttaque(this, adversaire);
-		
 		adversaire.defendre(degatsCurrentAttaque);
 	}
 	

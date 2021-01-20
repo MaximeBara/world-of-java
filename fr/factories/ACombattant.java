@@ -26,6 +26,12 @@ public abstract class ACombattant implements Combattant {
 		if(this.pointDeVie < 0)
 			this.pointDeVie = 0;
 	}
+	
+	public boolean estMort() {
+		if(pointDeVie <= 0)
+			return true;
+		return false;
+	}
 
 	@Override
 	public String toString() {

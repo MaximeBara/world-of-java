@@ -12,6 +12,7 @@ public class Groupe implements Combattant {
 	private String nomGroupe = "Groupe de monstres";
 	private int degats;
 	private int pointDeVie;
+	private Random rand = new Random();
 	
 	public Groupe(int nbMonstres) {
 		listeMonstres = new ArrayList<>(nbMonstres);
@@ -19,6 +20,7 @@ public class Groupe implements Combattant {
 	
 	public void addCombattant(Combattant combattant) {
 		this.listeMonstres.add(combattant);
+		this.pointDeVie += combattant.getPointDeVie();
 	}
 	
 	public boolean estMort() {
@@ -30,18 +32,24 @@ public class Groupe implements Combattant {
 
 	@Override
 	public void attaquer(Combattant adversaire) {
-		Random rand = new Random();
-	    Combattant rndCombattant = listeMonstres.get(rand.nextInt(listeMonstres.size()));
+		Combattant rndCombattant;
+		do {
+			rndCombattant = listeMonstres.get(rand.nextInt(listeMonstres.size()));
+		}while(rndCombattant.getPointDeVie() <= 0);
 	    this.setDegats(rndCombattant.getDegats());
 	    rndCombattant.attaquer(adversaire);
 	}
 
 	@Override
 	public void defendre(int degats) {
-		Random rand = new Random();
-	    Combattant rndCombattant = listeMonstres.get(rand.nextInt(listeMonstres.size()));
-	    this.setPointDeVie(rndCombattant.getPointDeVie());
-	    rndCombattant.defendre(degats);
+		System.out.println("TestDefendreGroupe");
+		Combattant rndCombattant;
+		do {
+			System.out.println("Random");
+			rndCombattant = listeMonstres.get(rand.nextInt(listeMonstres.size()));
+			System.out.println("PV : " + rndCombattant.getPointDeVie());
+		}while(rndCombattant.getPointDeVie() <= 0);
+		rndCombattant.defendre(degats);
 	}
 
 	@Override

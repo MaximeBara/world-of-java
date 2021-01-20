@@ -12,5 +12,6 @@ public interface Combattant {
     public void setNom(String nom);
     public void setDegats(int degats);
     public void setPointDeVie(int pointDeVie);
+    public boolean estMort();
 	
 }

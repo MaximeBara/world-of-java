@@ -13,7 +13,7 @@ import fr.interaction.BasicAttaque;
 import fr.interaction.Classe;
 
 public abstract class Monde {
-	
+
 	private static Scanner clavier = new Scanner(System.in);
 
 	private static String[] debutNom = new String[] { "Chat", "Chien", "Chaton" };
@@ -122,7 +122,7 @@ public abstract class Monde {
 			grp.addCombattant(personnageFactory());
 		return grp;
 	}
-	
+
 //	public static void creationClasse() {
 //		String nomClasse;
 //		System.out.println("Saisir le nom de la classe :");
@@ -144,15 +144,25 @@ public abstract class Monde {
 		boolean turn = true;
 
 		System.out.println("Combat entre " + combattant1.toString() + " et " + combattant2.toString());
+		
+		System.out.println(combattant1.getNom() + " - " + combattant1.getPointDeVie());
+		System.out.println(combattant2.getNom() + " - " + combattant2.getPointDeVie());
 
-		while (combattant1.getPointDeVie() > 0 && combattant2.getPointDeVie() > 0) {
-			System.out.println("------- TOUR " + tour + " -------");
+		while (!combattant1.estMort() && !combattant2.estMort()) {
+			System.out.println("Combattant 1 est-il mort ? " + combattant1.estMort());
+			System.out.println("Combattant 2 est-il mort ? " + combattant2.estMort());
+			System.out.println(!combattant1.estMort() || !combattant2.estMort());
+			System.out.println("------- TOUR " + tour + "-------");
 			if (turn) {
+				System.out.println(combattant1.getNom() + " attaque.");
 				combattant1.attaquer(combattant2);
-				System.out.println("Il reste " + combattant2.getPointDeVie() + " points de vie à " + combattant2.getNom());
+				System.out.println(
+						"Il reste " + combattant2.getPointDeVie() + " points de vie à " + combattant2.getNom());
 			} else {
+				System.out.println(combattant2.getNom() + " attaque.");
 				combattant2.attaquer(combattant1);
-				System.out.println("Il reste " + combattant1.getPointDeVie() + " points de vie à " + combattant1.getNom());
+				System.out.println(
+						"Il reste " + combattant1.getPointDeVie() + " points de vie à " + combattant1.getNom());
 			}
 			turn = !turn;
 			tour++;
@@ -162,14 +172,14 @@ public abstract class Monde {
 		else
 			System.out.println(combattant1.getNom() + " a vaincu " + combattant2.getNom());
 	}
-	
+
 	/**
 	 * Génère le menu du jeu
 	 */
 	public static void genese() {
 		String choix;
 		classeFactory();
-		
+
 		System.out.println("---***--- Bonjour ---***---");
 		System.out.println("Choisir une option:");
 		System.out.println("1: Lancer un combat 1v1");
@@ -178,68 +188,68 @@ public abstract class Monde {
 		System.out.println("4: Informations");
 		System.out.println("----------------------------");
 		System.out.println(">>>");
-		
+
 		choix = clavier.nextLine();
-		
-		if(choix.equals("1"))
+
+		if (choix.equals("1"))
 			combat1v1();
-		else if(choix.equals("2"))
+		else if (choix.equals("2"))
 			combatGroupe();
-		else if(choix.equals("3"))
+		else if (choix.equals("3"))
 			combatSolo();
-		else if(choix.equals("4"))
+		else if (choix.equals("4"))
 			afficherInformations();
 		else {
 			clavier.close();
-			System.exit(0);
 		}
+		System.exit(0);
 	}
-	
+
 	/**
 	 * Fait s'affronter un personnage et un monstre en un contre un
 	 */
 	public static void combat1v1() {
 		combat(personnageFactory(), monstreFactory());
 	}
-	
+
 	/**
 	 * Fais s'affronter un groupe de personnages et un groupe de monstres
 	 */
 	public static void combatGroupe() {
 		System.out.println("Quel est la taille du groupe du héro ?");
 		Groupe personnages = creationGroupePersonnages(clavier.nextInt());
-		
+
 		System.out.println("Quel est la taille du groupe des monstres ?");
 		Groupe monstres = creationGroupeMonstres(clavier.nextInt());
-		
-		while(!monstres.estMort())
-			combat(personnages, monstres);
+
+		combat(personnages, monstres);
 	}
-	
+
 	/**
 	 * Fait s'affronter un personnage contre un groupe de monstres
 	 */
 	public static void combatSolo() {
 		System.out.println("Quel est la taille du groupe des monstres ?");
 		Groupe monstres = creationGroupeMonstres(clavier.nextInt());
-		
-		combat(personnageFactory(), monstres);
+		Personnage p = personnageFactory();
+
+		combat(p, monstres);
 	}
-	
+
 	/**
-	 * Affiche les informations relatives aux classes disponibles.
-	 * Les monstres sont générés aléatoirement donc leur affichage n'est pas disponible.
+	 * Affiche les informations relatives aux classes disponibles. Les monstres sont
+	 * générés aléatoirement donc leur affichage n'est pas disponible.
 	 */
 	public static void afficherInformations() {
 		System.out.println("Les classes disponibles sont: ");
-		for(Map.Entry<String, Classe> classe : classes.entrySet()) {
+		for (Map.Entry<String, Classe> classe : classes.entrySet()) {
 			System.out.println("La classe : " + classe.getKey());
 			System.out.println("Ses attaques : ");
-			for(Attaque attaque : classe.getValue().attaques) {
+			for (Attaque attaque : classe.getValue().attaques) {
 				System.out.println(attaque.getNom());
 			}
 		}
-			
+
 	}
 
 }
