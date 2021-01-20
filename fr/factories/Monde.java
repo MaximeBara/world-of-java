@@ -20,6 +20,7 @@ public abstract class Monde {
 	private static String[] finNom = new String[] { "méchant", "de feu", "de la mort" };
 
 	private static HashMap<String, Classe> classes;
+	private static Attaque[] listeAttaques;
 
 	/**
 	 * Créer un personnage avec tous ses attributs. Demande à l'utilisateur d'entrer
@@ -42,7 +43,6 @@ public abstract class Monde {
 			classe = getClasse(next);
 		} while (classe == null);
 		res.setClasse(classe);
-		clavier.close();
 		return res;
 
 	}
@@ -122,6 +122,16 @@ public abstract class Monde {
 			grp.addCombattant(personnageFactory());
 		return grp;
 	}
+	
+//	public static void creationClasse() {
+//		String nomClasse;
+//		System.out.println("Saisir le nom de la classe :");
+//		nomClasse = clavier.next();
+//		for(int i=0; i<7; i++) {
+//			
+//		}
+//		classes.put(nomClasse, Classe);
+//	}
 
 	/**
 	 * Fait combattre les deux combattants passés en paramètres.
@@ -153,6 +163,9 @@ public abstract class Monde {
 			System.out.println(combattant1.getNom() + " a vaincu " + combattant2.getNom());
 	}
 	
+	/**
+	 * Génère le menu du jeu
+	 */
 	public static void genese() {
 		String choix;
 		classeFactory();
@@ -176,14 +189,22 @@ public abstract class Monde {
 			combatSolo();
 		else if(choix.equals("4"))
 			afficherInformations();
-		else 
+		else {
+			clavier.close();
 			System.exit(0);
+		}
 	}
 	
+	/**
+	 * Fait s'affronter un personnage et un monstre en un contre un
+	 */
 	public static void combat1v1() {
 		combat(personnageFactory(), monstreFactory());
 	}
 	
+	/**
+	 * Fais s'affronter un groupe de personnages et un groupe de monstres
+	 */
 	public static void combatGroupe() {
 		System.out.println("Quel est la taille du groupe du héro ?");
 		Groupe personnages = creationGroupePersonnages(clavier.nextInt());
@@ -191,9 +212,13 @@ public abstract class Monde {
 		System.out.println("Quel est la taille du groupe des monstres ?");
 		Groupe monstres = creationGroupeMonstres(clavier.nextInt());
 		
-		combat(personnages, monstres);
+		while(!monstres.estMort())
+			combat(personnages, monstres);
 	}
 	
+	/**
+	 * Fait s'affronter un personnage contre un groupe de monstres
+	 */
 	public static void combatSolo() {
 		System.out.println("Quel est la taille du groupe des monstres ?");
 		Groupe monstres = creationGroupeMonstres(clavier.nextInt());
@@ -201,6 +226,10 @@ public abstract class Monde {
 		combat(personnageFactory(), monstres);
 	}
 	
+	/**
+	 * Affiche les informations relatives aux classes disponibles.
+	 * Les monstres sont générés aléatoirement donc leur affichage n'est pas disponible.
+	 */
 	public static void afficherInformations() {
 		System.out.println("Les classes disponibles sont: ");
 		for(Map.Entry<String, Classe> classe : classes.entrySet()) {

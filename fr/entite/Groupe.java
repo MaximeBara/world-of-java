@@ -8,7 +8,10 @@ import fr.factories.Combattant;
 
 public class Groupe implements Combattant {
 
-	List<Combattant> listeMonstres;
+	private List<Combattant> listeMonstres;
+	private String nomGroupe = "Groupe de monstres";
+	private int degats;
+	private int pointDeVie;
 	
 	public Groupe(int nbMonstres) {
 		listeMonstres = new ArrayList<>(nbMonstres);
@@ -29,6 +32,7 @@ public class Groupe implements Combattant {
 	public void attaquer(Combattant adversaire) {
 		Random rand = new Random();
 	    Combattant rndCombattant = listeMonstres.get(rand.nextInt(listeMonstres.size()));
+	    this.setDegats(rndCombattant.getDegats());
 	    rndCombattant.attaquer(adversaire);
 	}
 
@@ -36,43 +40,43 @@ public class Groupe implements Combattant {
 	public void defendre(int degats) {
 		Random rand = new Random();
 	    Combattant rndCombattant = listeMonstres.get(rand.nextInt(listeMonstres.size()));
+	    this.setPointDeVie(rndCombattant.getPointDeVie());
 	    rndCombattant.defendre(degats);
 	}
 
 	@Override
 	public String getNom() {
-		// TODO Auto-generated method stub
-		return null;
+		return nomGroupe;
 	}
 
 	@Override
 	public int getDegats() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.degats;
 	}
 
 	@Override
 	public int getPointDeVie() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.pointDeVie;
 	}
 
 	@Override
 	public void setNom(String nom) {
-		// TODO Auto-generated method stub
-		
+		this.nomGroupe = nom;
 	}
 
 	@Override
 	public void setDegats(int degats) {
-		// TODO Auto-generated method stub
-		
+		this.degats = degats;
 	}
 
 	@Override
 	public void setPointDeVie(int pointDeVie) {
-		// TODO Auto-generated method stub
-		
+		this.pointDeVie = pointDeVie;
+	}
+
+	@Override
+	public String toString() {
+		return "Groupe [listeMonstres=" + listeMonstres + ", nomGroupe=" + nomGroupe + "]";
 	}
 
 }
